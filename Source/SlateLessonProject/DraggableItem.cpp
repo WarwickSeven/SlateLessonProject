@@ -36,7 +36,9 @@ void UDraggableItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 
 	if (TankOperation)
 	{
-		TankOperation->DefaultDragVisual = this;
+		TankOperation->DefaultDragVisual = CreateWidget(this, GetClass());
+		TankOperation->OriginWidget = this;
+		
 		SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 0.7f));
 		SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
@@ -53,9 +55,9 @@ bool UDraggableItem::NativeOnDragOver(const FGeometry& InGeometry, const FDragDr
 	UVerticalBox* VerticalBox = Cast<UVerticalBox>(GetParent());
 	UTankDragDropOperation* TankOperation = Cast<UTankDragDropOperation>(InOperation);
 
-	if (VerticalBox && TankOperation && TankOperation->DefaultDragVisual && this != TankOperation->DefaultDragVisual)
+	if (VerticalBox && TankOperation && TankOperation->OriginWidget && this != TankOperation->OriginWidget)
 	{
-		const int32 OverIndex = VerticalBox->GetChildIndex(TankOperation->DefaultDragVisual);
+		const int32 OverIndex = VerticalBox->GetChildIndex(TankOperation->OriginWidget);
 
 		if (OverIndex >= 0)
 		{
@@ -66,9 +68,11 @@ bool UDraggableItem::NativeOnDragOver(const FGeometry& InGeometry, const FDragDr
 
 			for (int32 i = 0; i < Children.Num(); i++)
 			{
+				VerticalBox->AddChildToVerticalBox(Children[i])->SetHorizontalAlignment(HAlign_Center);
+				
 				if (Children[i] == this)
 				{
-					VerticalBox->AddChildToVerticalBox(TankOperation->DefaultDragVisual)->SetHorizontalAlignment(HAlign_Center);
+					VerticalBox->AddChildToVerticalBox(TankOperation->OriginWidget)->SetHorizontalAlignment(HAlign_Center);
 				}
 			}
 			return true;
@@ -90,9 +94,9 @@ bool UDraggableItem::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEv
 
 void UDraggableItem::RestoreVisuals(UDragDropOperation* Operation)
 {
-	if (UDraggableItem* Item = Cast<UDraggableItem>(Operation->DefaultDragVisual))
+	if (UTankDragDropOperation* TankOperation = Cast<UTankDragDropOperation>(Operation))
 	{
-		Item->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 1.f));
-		Item->SetVisibility(ESlateVisibility::Visible);
+		TankOperation->OriginWidget->SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 1.f));
+		TankOperation->OriginWidget->SetVisibility(ESlateVisibility::Visible);
 	}
 }
