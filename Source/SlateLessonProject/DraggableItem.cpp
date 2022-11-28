@@ -23,7 +23,7 @@ FReply UDraggableItem::NativeOnMouseButtonDown(const FGeometry& InGeometry, cons
 {
 	if (Cast<UVerticalBox>(GetParent()) && InMouseEvent.IsMouseButtonDown(EKeys::LeftMouseButton))
 	{
-		return  UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
+		return UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton).NativeReply;
 	}
 
 	return FReply::Handled();
@@ -38,7 +38,7 @@ void UDraggableItem::NativeOnDragDetected(const FGeometry& InGeometry, const FPo
 	{
 		TankOperation->DefaultDragVisual = this;
 		SetColorAndOpacity(FLinearColor(1.f, 1.f, 1.f, 0.7f));
-		SetVisibility(ESlateVisibility::HitTestInvisible);
+		SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
 		TankOperation->OnDragCancelled.AddDynamic(this, &ThisClass::RestoreVisuals);
 	}
