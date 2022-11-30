@@ -3,11 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Inventory/InventoryCharacter.h"
 #include "GameFramework/Character.h"
 #include "SlateLessonProjectCharacter.generated.h"
 
 UCLASS(config=Game)
-class ASlateLessonProjectCharacter : public ACharacter
+class ASlateLessonProjectCharacter : public AInventoryCharacter
 {
 	GENERATED_BODY()
 
