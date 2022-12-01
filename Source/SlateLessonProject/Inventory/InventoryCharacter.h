@@ -9,7 +9,7 @@
 class UInventoryComponent;
 class UInventoryManagerComponent;
 
-UCLASS()
+UCLASS(Abstract)
 class SLATELESSONPROJECT_API AInventoryCharacter : public ACharacter
 {
 	GENERATED_BODY()

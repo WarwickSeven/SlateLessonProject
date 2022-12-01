@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "BasePlayerController.generated.h"
 
-UCLASS()
+UCLASS(Abstract)
 class SLATELESSONPROJECT_API ABasePlayerController : public APlayerController
 {
 	GENERATED_BODY()

@@ -8,7 +8,7 @@
 
 class UTextBlock;
 
-UCLASS()
+UCLASS(Abstract)
 class SLATELESSONPROJECT_API UActorSpawnerWidget : public UUserWidget
 {
 	GENERATED_BODY()
