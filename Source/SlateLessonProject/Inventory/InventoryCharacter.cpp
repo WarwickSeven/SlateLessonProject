@@ -15,6 +15,6 @@ AInventoryCharacter::AInventoryCharacter()
 void AInventoryCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
+	
 	InventoryManager->Init(LocalInventory);
 }

@@ -60,7 +60,7 @@ struct FInventoryItemInfo : public FTableRowBase
 };
 
 USTRUCT(BlueprintType)
-struct FInventorySlotInfo //: public FTableRowBase
+struct FInventorySlotInfo : public FTableRowBase
 {
 	GENERATED_BODY()
 

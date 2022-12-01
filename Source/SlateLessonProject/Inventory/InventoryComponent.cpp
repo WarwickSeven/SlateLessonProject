@@ -14,3 +14,16 @@ void UInventoryComponent::ClearItem(int32 SlotIndex)
 {
 	Items.Remove(SlotIndex);
 }
+
+void UInventoryComponent::CurrentInit(const UDataTable* ItemsData) //Data - общий DataTable
+{
+	FString ContextString;
+	TArray<FInventorySlotInfo*> OutAllRows;
+	CurrentItemsTable->GetAllRows<FInventorySlotInfo>(ContextString, OutAllRows);
+	//необходимо добавить сверку с DataTable
+	for (int32 i = 0; i < OutAllRows.Num(); i++)
+	{
+		SetItem(i+1, *OutAllRows[i]);
+	}
+}
+

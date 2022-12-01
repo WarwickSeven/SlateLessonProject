@@ -23,7 +23,12 @@ public:
 
 	FORCEINLINE int32 GetItemsNum() const { return Items.Num(); }
 
+	virtual void CurrentInit(const UDataTable* ItemsData);
+	
 protected:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY()
 	TMap<int32, FInventorySlotInfo> Items;
+
+	UPROPERTY(EditAnywhere)
+	UDataTable* CurrentItemsTable;
 };

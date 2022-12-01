@@ -23,7 +23,7 @@ public:
 	void Init(UInventoryComponent* InInventoryComponent);
 
 	const FInventoryItemInfo* GetItemData(const FName& InID) const;
-
+	
 protected:
 	
 	UPROPERTY()
@@ -31,7 +31,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	UDataTable* ItemsData;
-
+	
 	UPROPERTY(EditAnywhere)
 	int32 MinInventorySize = 20;
 
