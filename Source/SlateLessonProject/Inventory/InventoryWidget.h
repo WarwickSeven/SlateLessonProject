@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "InventoryCellWidget.h"
 #include "InventoryData.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryWidget.generated.h"
 
+class UInventoryComponent;
 class UUniformGridPanel;
 class UInventoryCellWidget;
 
@@ -18,11 +18,16 @@ class SLATELESSONPROJECT_API UInventoryWidget : public UUserWidget
 
 public:
 
+	virtual void NativeConstruct() override;
+	
 	void Init(int32 ItemsCount);
 
 	bool AddItem(const FInventorySlotInfo& InSlot, const FInventoryItemInfo& Info, int32 SlotIndex);
 
 	FOnItemDrop OnItemDrop;
+
+	UPROPERTY()
+	UInventoryComponent* ParentInventory;
 
 protected:
 
@@ -32,16 +37,21 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UInventoryCellWidget> CellWidgetClass;
 
-	UPROPERTY(BlueprintReadOnly, meta=(BindWidget))
+	//основная панель ячеек 
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional))
 	UUniformGridPanel* CellsPanel;
 
-	UPROPERTY(BlueprintReadOnly, meta=(BindWidget))
+	//ячейка для золота
+	UPROPERTY(BlueprintReadOnly, meta=(BindWidgetOptional))
 	UInventoryCellWidget* GoldCell;
 
-	UPROPERTY()
+	//массив всех созданных ячеек
+	UPROPERTY(BlueprintReadWrite)
 	TArray<UInventoryCellWidget*> CellWidgets;
 
 	UInventoryCellWidget* CreateCell();
 
+	void InitCell(UInventoryCellWidget* NewCell);
+	
 	void OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To);
 };

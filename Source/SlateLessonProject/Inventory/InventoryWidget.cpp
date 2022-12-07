@@ -3,10 +3,21 @@
 
 #include "InventoryWidget.h"
 
+#include "InventoryCellWidget.h"
 #include "Components/UniformGridPanel.h"
 
 
-void UInventoryWidget::Init(int32 ItemsCount)
+void UInventoryWidget::NativeConstruct()
+{
+	Super::NativeConstruct(); // Call BP Event
+
+	for (auto* Cell : CellWidgets)
+	{
+		InitCell(Cell);
+	}
+}
+
+void UInventoryWidget::Init(int32 ItemsCount) //процедурная генерация панели ячеек
 {
 	if (CellsPanel)
 	{
@@ -39,6 +50,7 @@ bool UInventoryWidget::AddItem(const FInventorySlotInfo& InSlot, const FInventor
 			{
 				return Cell && Cell->IndexInInventory == SlotIndex;
 			});
+		
 		if (FoundPtr)
 		{
 			Found = *FoundPtr;
@@ -69,10 +81,21 @@ UInventoryCellWidget* UInventoryWidget::CreateCell()
 	{
 		auto* Cell = CreateWidget<UInventoryCellWidget>(this, CellWidgetClass);
 		CellWidgets.Add(Cell);
-		Cell->OnItemDrop.AddUObject(this, &ThisClass::OnItemDropFunc);
+		
+		InitCell(Cell);
+		
 		return Cell;
 	}
 	return nullptr;
+}
+
+void UInventoryWidget::InitCell(UInventoryCellWidget* NewCell)
+{
+	if (NewCell)
+	{
+		NewCell->OnItemDrop.AddUObject(this, &ThisClass::OnItemDropFunc);
+		NewCell->ParentInventoryWidget = this;
+	}
 }
 
 void UInventoryWidget::OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To)

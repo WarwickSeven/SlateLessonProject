@@ -2,8 +2,8 @@
 
 
 #include "InventoryCellWidget.h"
-
-#include "Blueprint/DragDropOperation.h"
+#include "InventoryWidget.h"
+// #include "Blueprint/DragDropOperation.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
@@ -51,6 +51,12 @@ void UInventoryCellWidget::Clear()
 	}
 
 	bHasItem = false;
+	Item = {};
+}
+
+UInventoryComponent* UInventoryCellWidget::GetParentInventory() const
+{
+	return ParentInventoryWidget ? ParentInventoryWidget->ParentInventory : nullptr;
 }
 
 FReply UInventoryCellWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
@@ -68,6 +74,7 @@ void UInventoryCellWidget::NativeOnDragDetected(const FGeometry& InGeometry, con
 	OutOperation = UWidgetBlueprintLibrary::CreateDragDropOperation(UDragDropOperation::StaticClass());
 	if (OutOperation)
 	{
+		//преподаватель велел в идеале так не делать, а создать отдельный виджет
 		OutOperation->DefaultDragVisual = this;
 	}
 	else

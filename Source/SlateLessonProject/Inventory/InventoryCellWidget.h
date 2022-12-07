@@ -7,8 +7,10 @@
 #include "Blueprint/UserWidget.h"
 #include "InventoryCellWidget.generated.h"
 
+class UInventoryComponent;
 class UImage;
 class UTextBlock;
+class UInventoryWidget;
 
 UCLASS(Abstract)
 class SLATELESSONPROJECT_API UInventoryCellWidget : public UUserWidget
@@ -24,9 +26,15 @@ public:
 
 	FORCEINLINE const FInventorySlotInfo& GetItem() const { return Item; }
 
+	UPROPERTY(EditAnywhere)
 	int32 IndexInInventory = INDEX_NONE;
 
 	FOnItemDrop OnItemDrop;
+
+	UPROPERTY()
+	UInventoryWidget* ParentInventoryWidget;
+
+	UInventoryComponent* GetParentInventory() const;
 	
 protected:
 

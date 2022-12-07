@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "InventoryComponent.h"
 #include "InventoryData.h"
+#include "InventoryCellWidget.h"
+#include "EquipInventoryComponent.h"
 #include "Components/ActorComponent.h"
 #include "InventoryManagerComponent.generated.h"
 
@@ -21,6 +23,8 @@ public:
 	UInventoryManagerComponent();
 
 	void Init(UInventoryComponent* InInventoryComponent);
+
+	void InitEquip(UEquipInventoryComponent* InInventoryComponent); //проверить
 
 	const FInventoryItemInfo* GetItemData(const FName& InID) const;
 	
@@ -40,6 +44,12 @@ protected:
 	
 	UPROPERTY()
 	UInventoryWidget* InventoryWidget;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UInventoryWidget> EquipWidgetClass;
+
+	UPROPERTY()
+	UInventoryWidget* EquipWidget;
 
 	void OnItemDropFunc(UInventoryCellWidget* From, UInventoryCellWidget* To);
 };
