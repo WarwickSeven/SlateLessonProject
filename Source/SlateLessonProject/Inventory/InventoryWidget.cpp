@@ -2,7 +2,6 @@
 
 
 #include "InventoryWidget.h"
-
 #include "InventoryCellWidget.h"
 #include "Components/UniformGridPanel.h"
 
